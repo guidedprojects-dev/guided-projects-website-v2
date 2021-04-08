@@ -32,10 +32,9 @@ const Profile = () => {
                   display: 'flex',
                   flexDirection: 'column',
                 }}
-                className="link-group"
               >
-                <Link href="/profile/test">Test</Link>
-                <Link href="/profile/test2">Test2</Link>
+                <Link href="account">Account</Link>
+                <Link href="test">Test</Link>
               </div>
             </div>
             {/* Inputs Main */}

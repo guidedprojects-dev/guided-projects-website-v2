@@ -10,7 +10,7 @@ const options = {
     return [
       {
         source: '/settings',
-        destination: '/settings/test',
+        destination: '/settings/account',
         permanent: true,
       },
     ];
