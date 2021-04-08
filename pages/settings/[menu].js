@@ -3,12 +3,6 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 
-const mockData = {
-  _id: 'test_id',
-  username: 'username',
-  password: 'password',
-};
-
 const Profile = () => {
   const router = useRouter();
   const { menu } = router.query;
@@ -21,7 +15,7 @@ const Profile = () => {
       <main>
         <div className="container-fluid">
           <div className="row title-wrapper p-3">
-            <h4>{mockData.username}</h4>
+            <h4>Username</h4>
           </div>
           <div className="row content-wrapper">
             {/* Menu Sidebar*/}
@@ -33,6 +27,7 @@ const Profile = () => {
                   flexDirection: 'column',
                 }}
               >
+                {/* Should make custom ActiveLink component */}
                 <Link href="account">Account</Link>
                 <Link href="test">Test</Link>
               </div>

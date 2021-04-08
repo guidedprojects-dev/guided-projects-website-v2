@@ -40,12 +40,6 @@ const Signin = () => {
       </main>
     </div>
   );
-
-  return (
-    <button type="github" onClick={() => signIn('github')}>
-      Sign up with GitHub{' '}
-    </button>
-  );
 };
 
 export default Signin;
