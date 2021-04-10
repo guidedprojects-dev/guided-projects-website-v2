@@ -1,13 +1,5 @@
 import Head from 'next/head';
-import {
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Stack,
-  Text,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { Button, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
 
 import Navbar from '../components/Navbar';
 

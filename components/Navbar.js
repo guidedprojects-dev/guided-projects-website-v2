@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  Box,
   Button,
   Flex,
   Heading,
@@ -9,7 +8,6 @@ import {
   LinkOverlay,
   Stack,
   Spacer,
-  Text,
 } from '@chakra-ui/react';
 
 export default function Navbar() {
