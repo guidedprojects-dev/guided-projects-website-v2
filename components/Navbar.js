@@ -40,7 +40,11 @@ export default function Navbar() {
           HB {/* Replace with hamburger icon */}
         </Button>
       </Stack>
-      <Spacer />
+      <Spacer
+        m={{ base: display ? '20px' : 0, md: 0 }}
+        border={{ base: '1px', md: '0px' }}
+        borderColor="gray.200"
+      />
       <Stack
         py="3"
         px="9"
