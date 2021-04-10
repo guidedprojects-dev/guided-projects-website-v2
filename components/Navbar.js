@@ -28,7 +28,9 @@ export default function Navbar() {
       >
         <LinkBox>
           <Heading fontSize={{ base: '3xl', md: '2xl' }}>
-            <LinkOverlay href="/">Guided Projects</LinkOverlay>
+            <LinkOverlay _hover={{ color: 'inherit' }} href="/">
+              Guided Projects
+            </LinkOverlay>
           </Heading>
         </LinkBox>
         <Spacer />
@@ -63,8 +65,15 @@ export default function Navbar() {
         <Link href="/about" px="20px" fontSize={{ base: 'lg' }}>
           About
         </Link>
-        <Button bg="primary.300" color="white" lineHeight="12px">
-          <Link href="/signin">Sign up</Link>
+        <Button
+          bg="primary.300"
+          _hover={{ bg: 'primary.400', color: 'white' }}
+          color="white"
+          lineHeight="12px"
+        >
+          <Link href="/signin" _hover={{ color: 'inherit' }}>
+            Sign up
+          </Link>
         </Button>
       </Stack>
     </Flex>
