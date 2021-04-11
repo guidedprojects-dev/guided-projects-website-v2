@@ -11,29 +11,46 @@ import {
   Button,
 } from '@chakra-ui/react';
 
+import Account from '../../components/settings/Account';
+import Security from '../../components/settings/Security';
 import Navbar from '../../components/Navbar';
 
-const ButtonLink = ({ href, children }) => {
+const LoadView = (menu) => {
+  switch (menu) {
+    case 'account': {
+      return <Account />;
+    }
+    case 'security': {
+      return <Security />;
+    }
+    default:
+      return null;
+  }
+};
+
+const ButtonLink = (props) => {
+  const { children } = props;
+
   return (
     <Link
-      href={href}
       align="center"
       bgGradient={'linear(to-r, primary.300, primary.500)'}
       fontWeight="bold"
       borderRadius="md"
-      p="1"
+      p="2"
       color="white"
       _hover={{
         color: 'white',
         bgGradient: 'linear(to-r, primary.400, primary.600)',
       }}
+      {...props}
     >
       {children}
     </Link>
   );
 };
 
-const Profile = () => {
+export default function Settings() {
   const router = useRouter();
   const { menu } = router.query;
 
@@ -47,23 +64,19 @@ const Profile = () => {
             colSpan={{ base: 10, md: 2 }}
           >
             {/* Menu Sidebar*/}
-            <Stack p={8}>
+            <Stack py={8} px={20}>
               {/* Should make ActiveLink component */}
               <ButtonLink href="account">Account</ButtonLink>
-              <ButtonLink href="test">Test</ButtonLink>
+              <ButtonLink href="security">Security</ButtonLink>
             </Stack>
           </GridItem>
           {/* Inputs Main */}
           {/* Should load in selected menu component here */}
-          <GridItem colSpan={{ base: 10, md: 8 }}>
-            <Stack p={8}>
-              <Text>{menu}</Text>
-            </Stack>
+          <GridItem p={8} colSpan={{ base: 10, md: 8 }}>
+            {LoadView(menu)}
           </GridItem>
         </Grid>
       </Flex>
     </Flex>
   );
-};
-
-export default Profile;
+}
