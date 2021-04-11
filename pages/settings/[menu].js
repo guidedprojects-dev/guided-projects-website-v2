@@ -46,8 +46,9 @@ const Profile = () => {
             bgGradient={'linear(to-br, dark.600, dark.900)'}
             colSpan={{ base: 10, md: 2 }}
           >
+            {/* Menu Sidebar*/}
             <Stack p={8}>
-              {/* Should make custom ActiveLink component */}
+              {/* Should make ActiveLink component */}
               <ButtonLink href="account">Account</ButtonLink>
               <ButtonLink href="test">Test</ButtonLink>
             </Stack>
@@ -60,7 +61,6 @@ const Profile = () => {
             </Stack>
           </GridItem>
         </Grid>
-        {/* Menu Sidebar*/}
       </Flex>
     </Flex>
   );
