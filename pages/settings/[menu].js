@@ -1,44 +1,68 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
-import Link from 'next/link';
+import {
+  Grid,
+  GridItem,
+  Flex,
+  Stack,
+  Text,
+  Link,
+  ButtonGroup,
+  Button,
+} from '@chakra-ui/react';
+
+import Navbar from '../../components/Navbar';
+
+const ButtonLink = ({ href, children }) => {
+  return (
+    <Link
+      href={href}
+      align="center"
+      bgGradient={'linear(to-r, primary.300, primary.500)'}
+      fontWeight="bold"
+      borderRadius="md"
+      p="1"
+      color="white"
+      _hover={{
+        color: 'white',
+        bgGradient: 'linear(to-r, primary.400, primary.600)',
+      }}
+    >
+      {children}
+    </Link>
+  );
+};
 
 const Profile = () => {
   const router = useRouter();
   const { menu } = router.query;
 
   return (
-    <div className="container">
-      <Head>
-        <title>Your Profile</title>
-      </Head>
-      <main>
-        <div className="container-fluid">
-          <div className="row title-wrapper p-3">
-            <h4>Username</h4>
-          </div>
-          <div className="row content-wrapper">
+    <Flex direction="column" minH="100vh">
+      <Navbar />
+      <Flex flex="1">
+        <Grid minW="100%" templateColumns="repeat(10, 1fr)">
+          <GridItem
+            bgGradient={'linear(to-br, dark.600, dark.900)'}
+            colSpan={{ base: 10, md: 2 }}
+          >
             {/* Menu Sidebar*/}
-            <div className="col-md-2 col-sm-12">
-              <div
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                {/* Should make custom ActiveLink component */}
-                <Link href="account">Account</Link>
-                <Link href="test">Test</Link>
-              </div>
-            </div>
-            {/* Inputs Main */}
-            {/* Should load in selected menu component here */}
-            <div className="col-md-9 col-sm-12">{menu}</div>
-          </div>
-        </div>
-      </main>
-    </div>
+            <Stack p={8}>
+              {/* Should make ActiveLink component */}
+              <ButtonLink href="account">Account</ButtonLink>
+              <ButtonLink href="test">Test</ButtonLink>
+            </Stack>
+          </GridItem>
+          {/* Inputs Main */}
+          {/* Should load in selected menu component here */}
+          <GridItem colSpan={{ base: 10, md: 8 }}>
+            <Stack p={8}>
+              <Text>{menu}</Text>
+            </Stack>
+          </GridItem>
+        </Grid>
+      </Flex>
+    </Flex>
   );
 };
 
