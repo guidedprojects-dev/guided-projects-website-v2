@@ -38,6 +38,7 @@ const ButtonLink = (props) => {
       fontWeight="bold"
       borderRadius="md"
       p="2"
+      minW="80%"
       color="white"
       _hover={{
         color: 'white',
@@ -64,7 +65,7 @@ export default function Settings() {
             colSpan={{ base: 10, md: 2 }}
           >
             {/* Menu Sidebar*/}
-            <Stack py={8} px={20}>
+            <Stack align="center" py={8}>
               {/* Should make ActiveLink component */}
               <ButtonLink href="account">Account</ButtonLink>
               <ButtonLink href="security">Security</ButtonLink>
