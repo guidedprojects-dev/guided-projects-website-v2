@@ -30,7 +30,8 @@ export default function Hero() {
           </Heading>
           <Text fontSize={{ base: "md", lg: "lg" }} color={"white"}>
             Guided Projects offers a new challenging way to help you improve
-            your software development skills.
+            your software development skills. Build out applications from
+            scratch with the guidance of a professional software engineer.
           </Text>
           <Stack direction={{ base: "column", md: "row" }} spacing={4}>
             <Button
