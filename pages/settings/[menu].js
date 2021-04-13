@@ -9,6 +9,7 @@ import {
   Link,
   ButtonGroup,
   Button,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import Account from '../../components/settings/Account';
@@ -60,19 +61,17 @@ export default function Settings() {
       <Navbar />
       <Flex flex="1">
         <Grid minW="100%" templateColumns="repeat(10, 1fr)">
+          {/* Menu Sidebar*/}
           <GridItem
             bgGradient={'linear(to-br, dark.600, dark.900)'}
             colSpan={{ base: 10, md: 2 }}
           >
-            {/* Menu Sidebar*/}
             <Stack align="center" py={8}>
-              {/* Should make ActiveLink component */}
               <ButtonLink href="account">Account</ButtonLink>
               <ButtonLink href="security">Security</ButtonLink>
             </Stack>
           </GridItem>
           {/* Inputs Main */}
-          {/* Should load in selected menu component here */}
           <GridItem p={8} colSpan={{ base: 10, md: 8 }}>
             {LoadView(menu)}
           </GridItem>

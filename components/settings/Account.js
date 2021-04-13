@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   Stack,
   Flex,
@@ -22,25 +22,23 @@ export default function Account() {
   const [loadForm, setLoadForm] = useState(false);
 
   useEffect(() => {
-    if (!loadForm) {
-      mockAPI
-        .getUserData()
-        .then((res) => setUserData(res))
-        .catch((err) => console.log(err));
-    }
+    mockAPI
+      .getUserData()
+      .then((res) => setUserData(res))
+      .catch((err) => console.log(err));
   }, []);
 
   const handleLoadForm = () => {
     setLoadForm(!loadForm);
   };
 
-  const handleSubmitEdit = (data) => {
-    if (data === null) {
+  const handleSubmitEdit = (editData) => {
+    if (editData === null) {
       return setLoadForm(false);
     }
     mockAPI
-      .putUserData(data)
-      .then((res) => setUserData(data))
+      .putUserData(editData)
+      .then((res) => setUserData(res))
       .catch((err) => console.log(err))
       .finally(() => setLoadForm(false));
   };
@@ -90,7 +88,13 @@ export default function Account() {
     );
   }
 
-  return <div>Whoops</div>;
+  return (
+    <Stack>
+      <Flex>
+        <Heading>Uh oh, looks like something went wrong</Heading>
+      </Flex>
+    </Stack>
+  );
 }
 
 function EditForm({ data, handleSubmit }) {
@@ -99,16 +103,12 @@ function EditForm({ data, handleSubmit }) {
   const interestSet = new Set(editData.interests);
 
   const handleChange = ({ name, value }) => {
-    if (name === 'interests') {
-      return setInterestSearch(value);
-    }
     setEditData({ ...editData, [name]: value });
-    console.log(editData);
   };
 
   const handleAddInterest = (str) => {
     interestSet.add(str);
-    setEditDate({
+    setEditData({
       ...editData,
       interests: [...interestSet],
     });
@@ -121,10 +121,53 @@ function EditForm({ data, handleSubmit }) {
     });
   };
 
+  const handleInterestSearch = useMemo(() => {
+    if (interestSearch === '') {
+      return null;
+    }
+    let resultsArray = INTERESTS_VALUES.filter(
+      (e) =>
+        e.toLowerCase().includes(interestSearch.toLowerCase()) &&
+        !interestSet.has(e),
+    );
+
+    return resultsArray.length === 0 ? (
+      <Text fontWeight={'bold'}>No results</Text>
+    ) : (
+      resultsArray.map((e) => {
+        return (
+          <ButtonGroup key={e} mr="6px" size="sm" isAttached>
+            <Button
+              bg="blue.300"
+              _hover={{
+                cursor: 'default',
+                bgColor: 'blue.300',
+              }}
+            >
+              {e}
+            </Button>
+            <IconButton
+              icon={<AddIcon />}
+              bg="blue.300"
+              _hover={{
+                bgColor: 'primary.300',
+              }}
+              onClick={() => {
+                handleAddInterest(e);
+              }}
+            />
+          </ButtonGroup>
+        );
+      })
+    );
+  }, [interestSearch, editData.interests]);
+
   return (
     <Stack as="form" spacing="12px" maxW={{ base: '100%', md: '50%' }}>
       <FormControl>
-        <FormLabel htmlFor="user-title">Title:</FormLabel>
+        <FormLabel fontWeight="bold" htmlFor="user-title">
+          Title:
+        </FormLabel>
         <Input
           name="title"
           id="user-title"
@@ -133,35 +176,50 @@ function EditForm({ data, handleSubmit }) {
         />
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor="user-title">Interests:</FormLabel>
+        <FormLabel fontWeight="bold" htmlFor="user-title">
+          Interests:
+        </FormLabel>
         <Flex flexWrap="wrap">
           <Input
             minW="100%"
-            name="interests"
+            mb="6px"
+            name="interests-search"
             id="user-title"
             value={interestSearch}
-            onChange={(evt) => handleChange(evt.currentTarget)}
+            onChange={(evt) => setInterestSearch(evt.currentTarget.value)}
           />
+          {/* Currently Selected Interests */}
           {editData.interests.map((e) => (
-            <ButtonGroup mr="6px" size="sm" isAttached>
-              <Button>{e}</Button>
-              <IconButton icon={<CloseIcon />} />
+            <ButtonGroup key={e} mr="6px" size="sm" isAttached>
+              <Button
+                bg="primary.300"
+                _hover={{
+                  cursor: 'default',
+                  bgColor: 'primary.300',
+                }}
+              >
+                {e}
+              </Button>
+              <IconButton
+                bg="primary.300"
+                icon={<CloseIcon />}
+                _hover={{
+                  bgColor: 'red.300',
+                }}
+                onClick={() => {
+                  handleRemoveInterest(e);
+                }}
+              />
             </ButtonGroup>
           ))}
-          {interestSearch === ''
-            ? null
-            : INTERESTS_VALUES.filter(
-                (e) => e.includes(interestSearch) && !interestSet.has(e),
-              ).map((e) => (
-                <ButtonGroup mr="6px" size="sm" isAttached>
-                  <Button>{e}</Button>
-                  <IconButton icon={<AddIcon />} />
-                </ButtonGroup>
-              ))}
+          {/* Interest Search Results (not currently selected) */}
+          {handleInterestSearch}
         </Flex>
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor="user-title">Linkedin:</FormLabel>
+        <FormLabel fontWeight="bold" htmlFor="user-title">
+          Linkedin:
+        </FormLabel>
         <Input
           name="linkedin_url"
           id="user-title"
@@ -172,12 +230,19 @@ function EditForm({ data, handleSubmit }) {
       <Flex role="group">
         <Button
           mr="12px"
+          bg="blue.400"
+          color="white"
           name="form-submit"
           onClick={() => handleSubmit(editData)}
         >
           Submit
         </Button>
-        <Button name="form-cancel" onClick={() => handleSubmit(null)}>
+        <Button
+          name="form-cancel"
+          bg="red.400"
+          color="white"
+          onClick={() => handleSubmit(null)}
+        >
           Cancel
         </Button>
       </Flex>
