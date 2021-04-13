@@ -1,46 +1,104 @@
-import React, { useEffect } from 'react';
-import { signIn, useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
-import Navbar from '../components/Navbar';
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { signIn, useSession } from "next-auth/client";
+import {
+  Flex,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Checkbox,
+  Stack,
+  Link,
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import Navbar from "../components/Navbar";
+import { GithubIcon } from "../components/Icons";
 
-import { Flex, Stack, Heading, Button } from '@chakra-ui/react';
-
-const Signin = () => {
+export default function SimpleCard() {
   const [session, loading] = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    //    if (session) {
-    //      router.push('/app');
-    //    }
-  });
+    console.log(`session`, session);
+
+    if (session) {
+      router.push("/settings");
+    }
+  }, [session]);
 
   return (
-    <Flex direction="column" minH={'100vh'}>
+    <>
       <Navbar />
       <Flex
-        flex={1}
-        justify="center"
-        align="center"
-        bgGradient={'linear(to-br, dark.600, dark.900)'}
+        minH={"100vh"}
+        align={"center"}
+        justify={"center"}
+        bg={useColorModeValue("gray.50", "dark.800")}
       >
-        <Stack>
-          <Heading color="white" mb="40px">
-            Login
-          </Heading>
-          <Button
-            color={'white'}
-            bgGradient={'linear(to-r, primary.300, primary.500)'}
-            _hover={{
-              bgGradient: 'linear(to-r, primary.400, primary.600)',
-            }}
+        <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+          <Stack align={"center"}>
+            <Heading fontSize={"4xl"}>Sign in to your account</Heading>
+          </Stack>
+          <Box
+            rounded={"lg"}
+            bg={useColorModeValue("white", "gray.700")}
+            boxShadow={"lg"}
+            p={8}
           >
-            Github
-          </Button>
+            <Stack
+              pb={4}
+              mb={4}
+              borderBottomColor={useColorModeValue("gray.200", "gray.50")}
+              borderBottomWidth={1}
+            >
+              <Button
+                color="white"
+                bgColor={"gray.700"}
+                _hover={{
+                  bg: "gray.800",
+                }}
+                leftIcon={<GithubIcon />}
+                onClick={() => signIn("github")}
+              >
+                Sign in with GitHub
+              </Button>
+            </Stack>
+            <Stack spacing={4}>
+              <FormControl id="email">
+                <FormLabel>Email address</FormLabel>
+                <Input type="email" />
+              </FormControl>
+              <FormControl id="password">
+                <FormLabel>Password</FormLabel>
+                <Input type="password" />
+              </FormControl>
+              <Stack spacing={10}>
+                <Stack
+                  direction={{ base: "column", sm: "row" }}
+                  align={"start"}
+                  justify={"space-between"}
+                >
+                  <Checkbox>Remember me</Checkbox>
+                  <Link color={"dark.400"}>Forgot password?</Link>
+                </Stack>
+                <Button
+                  bg={"primary.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "primary.500",
+                  }}
+                >
+                  Sign in
+                </Button>
+              </Stack>
+            </Stack>
+          </Box>
         </Stack>
       </Flex>
-    </Flex>
+    </>
   );
-};
-
-export default Signin;
+}
