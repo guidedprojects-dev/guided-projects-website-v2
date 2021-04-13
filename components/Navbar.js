@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/client";
 import {
   Box,
   Flex,
@@ -21,9 +22,54 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
+import UserMenu from "../components/UserMenu";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
+  const [session, isLoading] = useSession();
+
+  /**
+   * Helper function to render the signin and sign up buttons if there is no session,
+   * or the user menu if the user has a session.
+   *
+   * @returns Either the user menu, or a sigin in button.
+   */
+  function renderUserMenu() {
+    if (session) {
+      return <UserMenu session={session} />;
+    } else {
+      return (
+        <Stack
+          flex={{ base: 1, md: 0 }}
+          justify={"flex-end"}
+          direction={"row"}
+          spacing={6}
+        >
+          <Button
+            as={"a"}
+            fontSize={"sm"}
+            fontWeight={400}
+            variant={"link"}
+            href={"#"}
+          >
+            Sign In
+          </Button>
+          <Button
+            display={{ base: "none", md: "inline-flex" }}
+            fontSize={"sm"}
+            fontWeight={600}
+            bgGradient={"linear(to-r, primary.300, primary.500)"}
+            color={"white"}
+            _hover={{
+              bgGradient: "linear(to-r, primary.400, primary.600)",
+            }}
+          >
+            Sign Up
+          </Button>
+        </Stack>
+      );
+    }
+  }
 
   return (
     <Box>
@@ -65,35 +111,7 @@ export default function WithSubnavigation() {
             <DesktopNav />
           </Flex>
         </Flex>
-
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            href={"#"}
-          >
-            Sign In
-          </Button>
-          <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            bgGradient={"linear(to-r, primary.300, primary.500)"}
-            color={"white"}
-            _hover={{
-              bgGradient: "linear(to-r, primary.400, primary.600)",
-            }}
-          >
-            Sign Up
-          </Button>
-        </Stack>
+        {!isLoading && renderUserMenu()}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
