@@ -1,3 +1,4 @@
+import { signOut } from "next-auth/client";
 import {
   Avatar,
   Button,
@@ -7,7 +8,7 @@ import {
   MenuItem,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/client";
+import { FiLogOut } from "react-icons/fi";
 
 export default function UserMenu({ session }) {
   return (
@@ -23,9 +24,13 @@ export default function UserMenu({ session }) {
             <Avatar size={"sm"} image={session.user.image} />
           </MenuButton>
           <MenuList>
-            <MenuItem>Link 1</MenuItem>
-            <MenuItem>Link 1</MenuItem>
-            <MenuItem>Link 1</MenuItem>
+            <MenuItem
+              color="red.600"
+              icon={<FiLogOut />}
+              onClick={() => signOut({ callbackUrl: "/" })}
+            >
+              Sign Out
+            </MenuItem>
           </MenuList>
         </Menu>
       ) : null}{" "}
