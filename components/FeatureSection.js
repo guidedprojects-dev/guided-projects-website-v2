@@ -1,11 +1,21 @@
-import { Box, Grid, Container, Heading, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  SimpleGrid,
+  Container,
+  Heading,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 
 function FeatureSection() {
   return (
-    <Container maxW={"container.xl"} centerContent p={20} colorScheme="primary">
-      <Grid templateColumns="repeat(3, 1fr)" gap={10}>
+    <Container maxW={"container.xl"} p={8} colorScheme="primary">
+      <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} gap={10}>
         <Box w="100%">
-          <Image src="web-development.svg" h={205} />
+          <Center>
+            <Image src="web-development.svg" h={205} />
+          </Center>
           <Box p={4} centerContent>
             <Heading as="h2" size="md" mb={4} align="center">
               Create Projects from Scratch
@@ -18,7 +28,9 @@ function FeatureSection() {
           </Box>
         </Box>
         <Box w="100%" centerContent p={4}>
-          <Image src="pair-program.svg" h={205} />
+          <Center>
+            <Image src="pair-program.svg" h={205} />
+          </Center>
           <Box p={4} centerContent>
             <Heading as="h2" size="md" mb={4} align="center">
               Receive Professional Code Reviews
@@ -31,7 +43,9 @@ function FeatureSection() {
           </Box>
         </Box>
         <Box w="100%">
-          <Image src="portfolio.svg" h={205} />
+          <Center>
+            <Image src="portfolio.svg" h={205} />
+          </Center>
           <Box p={4} centerContent>
             <Heading as="h2" size="md" mb={4} align="center">
               Add Projects to Your Portfolio
@@ -43,7 +57,7 @@ function FeatureSection() {
             </Text>
           </Box>
         </Box>
-      </Grid>
+      </SimpleGrid>
     </Container>
   );
 }
