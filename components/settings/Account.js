@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from "react";
 import {
   Stack,
   Flex,
@@ -14,13 +14,12 @@ import {
   FormControl,
   FormLabel,
   Input,
-} from '@chakra-ui/react';
-import { SettingsIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+} from "@chakra-ui/react";
+import { SettingsIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 
 export default function Account({ session }) {
   const [userData, setUserData] = useState({});
   const [loadForm, setLoadForm] = useState(false);
-  console.log(session);
 
   useEffect(() => {
     mockAPI
@@ -52,12 +51,12 @@ export default function Account({ session }) {
           <IconButton
             icon={<SettingsIcon />}
             ml="auto"
-            bgGradient={'linear(to-r, primary.300, primary.500)'}
+            bgGradient={"linear(to-r, primary.300, primary.500)"}
             color="white"
             onClick={handleLoadForm}
             _hover={{
-              color: 'white',
-              bgGradient: 'linear(to-r, primary.400, primary.600)',
+              color: "white",
+              bgGradient: "linear(to-r, primary.400, primary.600)",
             }}
           />
         </Flex>
@@ -66,37 +65,37 @@ export default function Account({ session }) {
         ) : (
           <Grid minW="50%" templateColumns="repeat(10, 1fr)" gap={12}>
             <GridItem colSpan={1}>
-              <Text as={'span'}>Title: </Text>
+              <Text as={"span"}>Title: </Text>
             </GridItem>
             <GridItem colSpan={9}>
-              <Text as={'span'}>{userData.title}</Text>
+              <Text as={"span"}>{userData.title}</Text>
             </GridItem>
             <GridItem colSpan={1}>
-              <Text as={'span'}>Interests: </Text>
+              <Text as={"span"}>Interests: </Text>
             </GridItem>
             <GridItem colSpan={9}>
-              <Text as={'span'}>{userData.interests.join(', ')}</Text>
+              <Text as={"span"}>{userData.interests.join(", ")}</Text>
             </GridItem>
             <GridItem colSpan={1}>
-              <Text as={'span'}>Linkedin: </Text>
+              <Text as={"span"}>Linkedin: </Text>
             </GridItem>
             <GridItem colSpan={9}>
-              <Text as={'span'}>{userData.linkedin_url}</Text>
+              <Text as={"span"}>{userData.linkedin_url}</Text>
             </GridItem>
             <GridItem colSpan={1}>
-              <Text as={'span'}>Github:</Text>
+              <Text as={"span"}>Github:</Text>
             </GridItem>
             <GridItem colSpan={9}>
               {session ? (
-                <Text as={'span'}>{session.user.github_url}</Text>
+                <Text as={"span"}>{session.user.github_url}</Text>
               ) : (
                 <Button
                   size="sm"
-                  bgGradient={'linear(to-r, primary.300, primary.500)'}
+                  bgGradient={"linear(to-r, primary.300, primary.500)"}
                   color="white"
                   _hover={{
-                    color: 'white',
-                    bgGradient: 'linear(to-r, primary.400, primary.600)',
+                    color: "white",
+                    bgGradient: "linear(to-r, primary.400, primary.600)",
                   }}
                 >
                   Link your github!
@@ -120,7 +119,7 @@ export default function Account({ session }) {
 
 function EditForm({ data, handleSubmit }) {
   const [editData, setEditData] = useState(data);
-  const [interestSearch, setInterestSearch] = useState('');
+  const [interestSearch, setInterestSearch] = useState("");
   const interestSet = new Set(editData.interests);
 
   const handleChange = ({ name, value }) => {
@@ -143,17 +142,17 @@ function EditForm({ data, handleSubmit }) {
   };
 
   const handleInterestSearch = useMemo(() => {
-    if (interestSearch === '') {
+    if (interestSearch === "") {
       return null;
     }
     let resultsArray = INTERESTS_VALUES.filter(
       (e) =>
         e.toLowerCase().includes(interestSearch.toLowerCase()) &&
-        !interestSet.has(e),
+        !interestSet.has(e)
     );
 
     return resultsArray.length === 0 ? (
-      <Text fontWeight={'bold'}>No results</Text>
+      <Text fontWeight={"bold"}>No results</Text>
     ) : (
       resultsArray.map((e) => {
         return (
@@ -161,8 +160,8 @@ function EditForm({ data, handleSubmit }) {
             <Button
               bg="blue.300"
               _hover={{
-                cursor: 'default',
-                bgColor: 'blue.300',
+                cursor: "default",
+                bgColor: "blue.300",
               }}
             >
               {e}
@@ -171,7 +170,7 @@ function EditForm({ data, handleSubmit }) {
               icon={<AddIcon />}
               bg="blue.300"
               _hover={{
-                bgColor: 'primary.300',
+                bgColor: "primary.300",
               }}
               onClick={() => {
                 handleAddInterest(e);
@@ -184,7 +183,7 @@ function EditForm({ data, handleSubmit }) {
   }, [interestSearch, editData.interests]);
 
   return (
-    <Stack as="form" spacing="12px" maxW={{ base: '100%', md: '50%' }}>
+    <Stack as="form" spacing="12px" maxW={{ base: "100%", md: "50%" }}>
       <FormControl>
         <FormLabel fontWeight="bold" htmlFor="user-title">
           Title:
@@ -215,8 +214,8 @@ function EditForm({ data, handleSubmit }) {
               <Button
                 bg="primary.300"
                 _hover={{
-                  cursor: 'default',
-                  bgColor: 'primary.300',
+                  cursor: "default",
+                  bgColor: "primary.300",
                 }}
               >
                 {e}
@@ -225,7 +224,7 @@ function EditForm({ data, handleSubmit }) {
                 bg="primary.300"
                 icon={<CloseIcon />}
                 _hover={{
-                  bgColor: 'red.300',
+                  bgColor: "red.300",
                 }}
                 onClick={() => {
                   handleRemoveInterest(e);
@@ -272,9 +271,9 @@ function EditForm({ data, handleSubmit }) {
 }
 
 var mockUserData = {
-  title: 'Fullstack Web Developer',
-  interests: ['Frontend', 'Design', 'Javascript'],
-  linkedin_url: 'https://www.linkedin.com/in/michael-hoobler-090847174/',
+  title: "Fullstack Web Developer",
+  interests: ["Frontend", "Design", "Javascript"],
+  linkedin_url: "https://www.linkedin.com/in/michael-hoobler-090847174/",
 };
 
 const mockAPI = {
@@ -290,12 +289,12 @@ const mockAPI = {
 };
 
 const INTERESTS_VALUES = [
-  'Frontend',
-  'Backend',
-  'Design',
-  'Javascript',
-  'Vue',
-  'Django',
-  'AWS',
-  'GCP',
+  "Frontend",
+  "Backend",
+  "Design",
+  "Javascript",
+  "Vue",
+  "Django",
+  "AWS",
+  "GCP",
 ];

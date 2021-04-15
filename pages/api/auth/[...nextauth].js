@@ -1,5 +1,5 @@
-import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+import NextAuth from "next-auth";
+import Providers from "next-auth/providers";
 
 export default (req, res) =>
   NextAuth(req, res, {
@@ -17,13 +17,12 @@ export default (req, res) =>
     ],
     database: process.env.DATABASE_URL,
     pages: {
-      signIn: '/signin',
+      signIn: "/signin",
     },
     callbacks: {
       async jwt(token, user, account, profile, isNewUser) {
         // Add Github's profile.url to the token right after signin
         // user data object - https://docs.github.com/en/rest/reference/users
-        console.log(profile);
         if (profile?.url) {
           token.url = profile.url;
         }
