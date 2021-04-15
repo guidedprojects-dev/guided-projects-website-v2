@@ -17,16 +17,17 @@ import {
 } from '@chakra-ui/react';
 import { SettingsIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
 
-export default function Account() {
+export default function Account({ session }) {
   const [userData, setUserData] = useState({});
   const [loadForm, setLoadForm] = useState(false);
+  console.log(session);
 
   useEffect(() => {
     mockAPI
       .getUserData()
       .then((res) => setUserData(res))
       .catch((err) => console.log(err));
-  }, []);
+  }, [session]);
 
   const handleLoadForm = () => {
     setLoadForm(!loadForm);
@@ -81,6 +82,26 @@ export default function Account() {
             </GridItem>
             <GridItem colSpan={9}>
               <Text as={'span'}>{userData.linkedin_url}</Text>
+            </GridItem>
+            <GridItem colSpan={1}>
+              <Text as={'span'}>Github:</Text>
+            </GridItem>
+            <GridItem colSpan={9}>
+              {session ? (
+                <Text as={'span'}>{session.user.github_url}</Text>
+              ) : (
+                <Button
+                  size="sm"
+                  bgGradient={'linear(to-r, primary.300, primary.500)'}
+                  color="white"
+                  _hover={{
+                    color: 'white',
+                    bgGradient: 'linear(to-r, primary.400, primary.600)',
+                  }}
+                >
+                  Link your github!
+                </Button>
+              )}
             </GridItem>
           </Grid>
         )}

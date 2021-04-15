@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/client';
 import {
   Grid,
   GridItem,
@@ -17,9 +18,11 @@ import Security from '../../components/settings/Security';
 import Navbar from '../../components/Navbar';
 
 const LoadView = (menu) => {
+  const [session, isLoading] = useSession();
+
   switch (menu) {
     case 'account': {
-      return <Account />;
+      return <Account session={session} />;
     }
     case 'security': {
       return <Security />;
