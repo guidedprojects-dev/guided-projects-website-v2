@@ -20,9 +20,18 @@ export default (req, res) =>
       signIn: '/signin',
     },
     callbacks: {
+      async jwt(token, user, account, profile, isNewUser) {
+        // Add Github's profile.bio to the token right after signin
+        if (profile?.bio) {
+          token.bio = profile.bio;
+        }
+        return token;
+      },
       session(session, user) {
+        console.log({ session, user });
         if (user) {
           session.user.id = user.id;
+          session.user.bio = user.bio;
           return session;
         }
       },
