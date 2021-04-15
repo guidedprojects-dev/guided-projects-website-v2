@@ -50,7 +50,7 @@ export default function WithSubnavigation() {
             fontSize={"sm"}
             fontWeight={400}
             variant={"link"}
-            href={"#"}
+            href={"signin"}
           >
             Sign In
           </Button>
@@ -273,6 +273,7 @@ const MobileNavItem = ({ label, children, href }) => {
 const NAV_ITEMS = [
   {
     label: "Home",
+    href: "/",
   },
   {
     label: "Projects",

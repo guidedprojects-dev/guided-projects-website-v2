@@ -24,6 +24,9 @@ export default function UserMenu({ session }) {
             <Avatar size={"sm"} image={session.user.image} />
           </MenuButton>
           <MenuList>
+            <MenuItem as="a" icon={<FiLogOut />} href="/settings">
+              Settings
+            </MenuItem>
             <MenuItem
               color="red.600"
               icon={<FiLogOut />}
