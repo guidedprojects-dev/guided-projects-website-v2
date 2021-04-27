@@ -1,17 +1,50 @@
 import React from "react";
-import { connectToDB } from "../../database/connect";
-import { getProjectList } from "../../database/projects";
+import { getClient } from "../../lib/sanity.server";
+import { projectSummaryListQuery } from "../../lib/queries";
+import { Container, Heading, Alert, AlertIcon } from "@chakra-ui/react";
+import Navbar from "../../components/Navbar";
+import ProjectLIstItem from "../../components/ProjectListItem";
 
-function index() {
-  return <div>This is the projects page</div>;
+function ProjectList(props) {
+  const { preview, projects } = props;
+
+  console.log(`projects`, projects);
+
+  return (
+    <>
+      <Navbar />
+      <Container maxW="container.xl" p={8}>
+        <Heading as="h1" size="lg" mb={8}>
+          Projects
+        </Heading>
+        <Alert status="info" variant="left-accent" mb={4} borderRadius="sm">
+          <AlertIcon />
+          All of our courses have a 30 day money back guarentee for any reason!
+        </Alert>
+        {projects.map((project) => (
+          <ProjectLIstItem
+            key={project._id}
+            slug={project.slug.current}
+            image={project.mainImage}
+            title={project.title}
+            description={project.description}
+            price={project.price}
+          />
+        ))}
+      </Container>
+    </>
+  );
 }
 
-export async function getServerSideProps() {
-  const { db } = await connectToDB();
-  const projects = await getProjectList(db);
-  console.log(`projectsssss`, projects);
+export async function getStaticProps({ preview = false }) {
+  const projects = await getClient(preview).fetch(projectSummaryListQuery);
 
-  return { props: { poop: "true" } };
+  return {
+    props: {
+      preview,
+      projects,
+    },
+  };
 }
 
-export default index;
+export default ProjectList;
