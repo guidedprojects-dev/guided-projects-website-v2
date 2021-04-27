@@ -26,6 +26,7 @@ function ProjectList(props) {
             key={project._id}
             slug={project.slug.current}
             image={project.mainImage}
+            author={project.author}
             title={project.title}
             description={project.description}
             price={project.price}

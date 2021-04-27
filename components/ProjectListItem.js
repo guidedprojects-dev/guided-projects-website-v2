@@ -1,13 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
-import { Flex, Box, Spacer, Image, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Flex,
+  Box,
+  Spacer,
+  Image,
+  Text,
+  HStack,
+} from "@chakra-ui/react";
 import { urlForImage } from "../lib/sanity";
 import DifficultyBadge from "./DifficultyBadge";
 import formatPrice from "../lib/formatPrice";
 
 function ProjectListItem(props) {
-  const { image, title, description, slug, price } = props;
+  const { image, title, description, author, slug, price } = props;
 
   return (
     <Flex
@@ -28,9 +36,21 @@ function ProjectListItem(props) {
           <Text fontSize="xl" fontWeight="bold">
             <Link href={`/projects/${slug}`}>{title}</Link>
           </Text>
-          <Text fontSize="md" mb={8}>
+          <Text fontSize="md" mb={[8, 8, 4, 4]}>
             {description}
           </Text>
+          <Box>
+            <HStack>
+              <Avatar
+                name={author.name}
+                src={urlForImage(author.image).url()}
+                size="sm"
+              />
+              <Text fontSize="sm" textColor={"gray.600"}>
+                {author.name}
+              </Text>
+            </HStack>
+          </Box>
         </Box>
         <Spacer />
         <Flex
