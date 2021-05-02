@@ -1,4 +1,5 @@
 import { useSession } from "next-auth/client";
+// import Link from 'next/link';
 import {
   Box,
   Flex,
@@ -273,9 +274,11 @@ const MobileNavItem = ({ label, children, href }) => {
 const NAV_ITEMS = [
   {
     label: "Home",
+    href: "/",
   },
   {
     label: "Projects",
+    href: "projects",
     children: [
       {
         label: "Super Store",
