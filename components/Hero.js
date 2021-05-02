@@ -59,7 +59,6 @@ export default function Hero() {
           height={"300px"}
           rounded={"2xl"}
           boxShadow={"2xl"}
-          // width={"full"}
           overflow={"hidden"}
         >
           <Image

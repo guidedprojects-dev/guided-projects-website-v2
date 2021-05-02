@@ -28,7 +28,11 @@ function ProjectListItem(props) {
       _hover={{ cursor: "pointer" }}
     >
       <Box w={["100%", "100%", "30%", "30%"]}>
-        <Image src={urlForImage(image).url()} />
+        <Image
+          src={urlForImage(image).url().toString()}
+          objectFit="fill"
+          htmlHeight="100%"
+        />
       </Box>
 
       <Flex flex={1} p={4} direction={["column", "column", "row", "row"]}>
