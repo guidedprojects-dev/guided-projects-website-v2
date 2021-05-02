@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Avatar,
+  Button,
   Image,
   Flex,
   Heading,
@@ -12,14 +13,14 @@ import {
 import { getClient } from "../../lib/sanity.server";
 import { urlForImage } from "../../lib/sanity";
 import { projectQuery, getProjectSlugsQuery } from "../../lib/queries";
-import markdownToHtml from "../../lib/markdownToHtml";
+import formatPrice from "../../lib/formatPrice";
 import renderToString from "next-mdx-remote/render-to-string";
 import Navbar from "../../components/Navbar";
 import ProjectPhases from "../../components/ProjectPhases";
 
 function ProjectPage(props) {
   const {
-    projectData: { title, description, author, mainImage, phases },
+    projectData: { title, description, author, mainImage, phases, price },
   } = props;
 
   return (
@@ -27,7 +28,7 @@ function ProjectPage(props) {
       <Navbar />
       <Stack
         spacing={{ base: 8, md: 10 }}
-        py={{ base: 20, md: 28 }}
+        py={{ base: 10, md: 20 }}
         direction={{ base: "column", md: "row" }}
         bgGradient={"linear(to-br, blue.700, blue.900)"}
       >
@@ -53,19 +54,31 @@ function ProjectPage(props) {
           w="full"
         >
           <Box
-            position="relative"
-            height=" 300px"
-            rounded="2xl"
-            boxShadow="2xl"
+            backgroundColor="gray.100"
+            rounded="lg"
             overflow="hidden"
+            width="400px"
           >
-            <Image
-              src={urlForImage(mainImage).url()}
-              alt={title}
-              h="100%"
-              objectFit="cover"
-              align="center"
-            />
+            <Box position="relative" boxShadow="2xl" overflow="hidden">
+              <Image
+                src={urlForImage(mainImage).url()}
+                alt={title}
+                objectFit="cover"
+                align="center"
+              />
+            </Box>
+            <Box p={4}>
+              <Text fontSize="2xl" fontWeight="bold" mb={2}>
+                {formatPrice(price)}
+              </Text>
+              <Text mb={4}>
+                Get professional code reviews and guidance for the entire
+                project!
+              </Text>
+              <Button colorScheme="red" w="100%" py={6}>
+                Buy Now
+              </Button>
+            </Box>
           </Box>
         </Flex>
       </Stack>
