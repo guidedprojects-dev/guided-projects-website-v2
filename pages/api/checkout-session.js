@@ -7,8 +7,6 @@ import { urlForImage } from "../../lib/sanity";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-console.log("hello from checkout-session");
-
 const handler = nc().post(async (req, res) => {
   const { projectId, returnTo } = req.body;
 
@@ -42,8 +40,7 @@ const handler = nc().post(async (req, res) => {
     });
     res.json({ id: checkoutSession.id });
   } catch (error) {
-    console.log(`error`, error);
-    res.statusCode(500).send(error.message);
+    res.status(500).send(error.message);
   }
 });
 
