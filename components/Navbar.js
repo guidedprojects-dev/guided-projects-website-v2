@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/client";
-// import Link from 'next/link';
+// import Link from "next/link";
 import {
   Box,
   Flex,
@@ -28,6 +28,7 @@ import UserMenu from "../components/UserMenu";
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const [session, isLoading] = useSession();
+  console.log(`session in navbar`, session);
 
   /**
    * Helper function to render the signin and sign up buttons if there is no session,
@@ -51,7 +52,7 @@ export default function WithSubnavigation() {
             fontSize={"sm"}
             fontWeight={400}
             variant={"link"}
-            href={"#"}
+            href={"/signin"}
           >
             Sign In
           </Button>

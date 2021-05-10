@@ -10,6 +10,8 @@ import {
   Stack,
   Container,
 } from "@chakra-ui/react";
+import axios from "../../utils/axiosInstance";
+import { useSession, getSession } from "next-auth/client";
 import { getClient } from "../../lib/sanity.server";
 import { urlForImage } from "../../lib/sanity";
 import { projectQuery, getProjectSlugsQuery } from "../../lib/queries";
@@ -17,11 +19,56 @@ import formatPrice from "../../lib/formatPrice";
 import renderToString from "next-mdx-remote/render-to-string";
 import Navbar from "../../components/Navbar";
 import ProjectPhases from "../../components/ProjectPhases";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 function ProjectPage(props) {
+  console.log(`props.projectData`, props.projectData);
   const {
-    projectData: { title, description, author, mainImage, phases, price },
+    projectData: {
+      _id,
+      title,
+      description,
+      author,
+      mainImage,
+      phases,
+      price,
+      slug,
+    },
   } = props;
+
+  const [session, loading] = useSession();
+
+  console.log(`session in project page`, session);
+
+  async function handleBuyNowClicked() {
+    const userSession = await getSession();
+    const stripe = await stripePromise;
+    console.log(`session`, userSession);
+
+    const checkoutSession = await axios.post("/api/checkout-session", {
+      projectId: _id,
+      returnTo: window.location.href,
+    });
+
+    // const response = await fetch("http://localhost:3000/api/checkout-session", {
+    //   method: "POST",
+    // });
+    // const session = await response.json();
+    // console.log(`response`, response);
+    // When the customer clicks on the button, redirect them to Checkout.
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+    if (result.error) {
+      // If `redirectToCheckout` fails due to a browser or network
+      // error, display the localized error message to your customer
+      // using `result.error.message`.
+    }
+  }
 
   return (
     <>
@@ -75,7 +122,12 @@ function ProjectPage(props) {
                 Get professional code reviews and guidance for the entire
                 project!
               </Text>
-              <Button colorScheme="red" w="100%" py={6}>
+              <Button
+                colorScheme="red"
+                w="100%"
+                py={6}
+                onClick={handleBuyNowClicked}
+              >
                 Buy Now
               </Button>
             </Box>
