@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -9,17 +9,23 @@ import {
   Box,
   Stack,
   Container,
+  Alert,
+  AlertIcon,
+  AlertDescription,
 } from "@chakra-ui/react";
 import axios from "../../utils/axiosInstance";
-import { useSession, getSession } from "next-auth/client";
+import renderToString from "next-mdx-remote/render-to-string";
+import { useSession } from "next-auth/client";
+import { loadStripe } from "@stripe/stripe-js";
+
 import { getClient } from "../../lib/sanity.server";
 import { urlForImage } from "../../lib/sanity";
 import { projectQuery, getProjectSlugsQuery } from "../../lib/queries";
+import { getDateStringFromTimestamp } from "../../lib/utils";
 import formatPrice from "../../lib/formatPrice";
-import renderToString from "next-mdx-remote/render-to-string";
+
 import Navbar from "../../components/Navbar";
 import ProjectPhases from "../../components/ProjectPhases";
-import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -40,13 +46,26 @@ function ProjectPage(props) {
   } = props;
 
   const [session, loading] = useSession();
+  const [userProject, setUserProject] = useState({});
+
+  console.log(`loading`, loading);
+  console.log(`userProject`, userProject);
+
+  useEffect(async () => {
+    if (session && !loading) {
+      const userProjectData = await axios.get(
+        `/api/user/projects/${slug.current}`
+      );
+
+      setUserProject(userProjectData.data);
+    }
+  }, [session, loading]);
 
   async function handleBuyNowClicked() {
-    const userSession = await getSession();
     const stripe = await stripePromise;
 
     const checkoutSession = await axios.post("/api/checkout-session", {
-      projectId: slug.current,
+      projectSlug: slug.current,
       returnTo: window.location.href,
     });
 
@@ -105,23 +124,48 @@ function ProjectPage(props) {
                 align="center"
               />
             </Box>
-            <Box p={4}>
-              <Text fontSize="2xl" fontWeight="bold" mb={2}>
-                {formatPrice(price)}
-              </Text>
-              <Text mb={4}>
-                Get professional code reviews and guidance for the entire
-                project!
-              </Text>
-              <Button
-                colorScheme="red"
-                w="100%"
-                py={6}
-                onClick={handleBuyNowClicked}
-              >
-                Buy Now
-              </Button>
-            </Box>
+            {userProject.purchased ? (
+              <Box p={4}>
+                <Alert status="info">
+                  <AlertIcon />
+                  You own this project!
+                </Alert>
+                <Text my={4} px={2}>
+                  Get professional code reviews and guidance for the entire
+                  project!
+                </Text>
+
+                <Button
+                  w={"100%"}
+                  color="white"
+                  bgColor={"gray.700"}
+                  _hover={{
+                    bg: "gray.800",
+                  }}
+                >
+                  Submit a Code Review
+                </Button>
+              </Box>
+            ) : (
+              <Box p={4}>
+                <Text fontSize="2xl" fontWeight="bold" mb={2}>
+                  {formatPrice(price)}
+                </Text>
+                <Text mb={4}>
+                  Get professional code reviews and guidance for the entire
+                  project!
+                </Text>
+
+                <Button
+                  colorScheme="red"
+                  w="100%"
+                  py={6}
+                  onClick={handleBuyNowClicked}
+                >
+                  Buy Now
+                </Button>
+              </Box>
+            )}
           </Box>
         </Flex>
       </Stack>

@@ -8,11 +8,11 @@ import { urlForImage } from "../../lib/sanity";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const handler = nc().post(async (req, res) => {
-  const { projectId, returnTo } = req.body;
+  const { projectSlug, returnTo } = req.body;
 
   try {
     const project = await getClient(false).fetch(projectCheckoutDataQuery, {
-      projectId,
+      projectSlug,
     });
     const userSession = await getSession({ req });
     const checkoutSession = await stripe.checkout.sessions.create({
