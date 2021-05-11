@@ -26,7 +26,6 @@ const stripePromise = loadStripe(
 );
 
 function ProjectPage(props) {
-  console.log(`props.projectData`, props.projectData);
   const {
     projectData: {
       _id,
@@ -42,23 +41,15 @@ function ProjectPage(props) {
 
   const [session, loading] = useSession();
 
-  console.log(`session in project page`, session);
-
   async function handleBuyNowClicked() {
     const userSession = await getSession();
     const stripe = await stripePromise;
-    console.log(`session`, userSession);
 
     const checkoutSession = await axios.post("/api/checkout-session", {
-      projectId: _id,
+      projectId: slug.current,
       returnTo: window.location.href,
     });
 
-    // const response = await fetch("http://localhost:3000/api/checkout-session", {
-    //   method: "POST",
-    // });
-    // const session = await response.json();
-    // console.log(`response`, response);
     // When the customer clicks on the button, redirect them to Checkout.
     const result = await stripe.redirectToCheckout({
       sessionId: checkoutSession.data.id,

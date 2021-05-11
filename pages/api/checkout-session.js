@@ -32,7 +32,7 @@ const handler = nc().post(async (req, res) => {
       ],
       mode: "payment",
       metadata: {
-        projectId,
+        projectSlug: project.slug.current,
         userId: userSession.user.userId,
       },
       success_url: `${returnTo}?checkout?canceled=true`,
