@@ -1,5 +1,6 @@
 import { buffer } from "micro";
 import Stripe from "stripe";
+import { connectToDB, updateUserProject } from "../../../database";
 
 const { STRIPE_WEBHOOK_SECRET, STRIPE_SECRET_KEY } = process.env;
 
@@ -34,9 +35,20 @@ async function handler(req, res) {
     switch (event.type) {
       case "checkout.session.completed": {
         const checkoutSession = event.data.object;
-        const { userId, projectId } = checkoutSession.metadata;
+        const { userId, projectSlug } = checkoutSession.metadata;
         // Confirm the payment went through before fulfilling the order
         if (checkoutSession.payment_status === "paid") {
+          try {
+            const { db } = await connectToDB();
+            await updateUserProject({
+              db,
+              userId,
+              projectSlug,
+              data: { purchased: true },
+            });
+          } catch (error) {
+            console.log(`error`, error);
+          }
         }
       }
     }

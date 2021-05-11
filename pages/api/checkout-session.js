@@ -35,7 +35,7 @@ const handler = nc().post(async (req, res) => {
         projectSlug: project.slug.current,
         userId: userSession.user.userId,
       },
-      success_url: `${returnTo}?checkout?canceled=true`,
+      success_url: `${returnTo}?canceled=false`,
       cancel_url: `${returnTo}?canceled=true`,
     });
     res.json({ id: checkoutSession.id });
