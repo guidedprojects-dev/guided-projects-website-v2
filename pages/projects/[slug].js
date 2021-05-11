@@ -100,16 +100,17 @@ function ProjectPage(props) {
         </Flex>
         <Flex
           flex={1}
-          justiry={"center"}
+          justify={"center"}
           align="center"
           position="relative"
-          w="full"
+          w={"full"}
         >
           <Box
             backgroundColor="gray.100"
             rounded="lg"
             overflow="hidden"
-            width="400px"
+            mx={12}
+            width={{ base: "full", md: "400px" }}
           >
             <Box position="relative" boxShadow="2xl" overflow="hidden">
               <Image

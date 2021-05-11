@@ -33,16 +33,26 @@ function ProjectPhases(props) {
     >
       <Box p={4} backgroundColor="gray.100" maxW="250px">
         {phaseTitles.map((title, index) => (
-          <Button
-            p={4}
-            variant="link"
-            colorScheme="blue"
-            display="block"
-            key={`phase-button-${title}`}
-            onClick={() => setSelectedPhaseIndex(index)}
-          >
-            {title}
-          </Button>
+          <React.Fragment key={`phase-button-${title}`}>
+            <Button
+              p={4}
+              variant="link"
+              colorScheme="blue"
+              display={{ base: "none", md: "block" }}
+              onClick={() => setSelectedPhaseIndex(index)}
+            >
+              {title}
+            </Button>
+            <Button
+              p={4}
+              variant="link"
+              colorScheme="blue"
+              display={{ base: "block", md: "none" }}
+              onClick={() => setSelectedPhaseIndex(index)}
+            >
+              {index + 1}
+            </Button>
+          </React.Fragment>
         ))}
       </Box>
       <Box p={4} className="markdown-body">

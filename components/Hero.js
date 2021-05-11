@@ -6,7 +6,6 @@ import {
   Stack,
   Text,
   Box,
-  useBreakpointValue,
 } from "@chakra-ui/react";
 
 export default function Hero() {
