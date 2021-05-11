@@ -10,6 +10,8 @@ import {
   Stack,
   Container,
 } from "@chakra-ui/react";
+import axios from "../../utils/axiosInstance";
+import { useSession, getSession } from "next-auth/client";
 import { getClient } from "../../lib/sanity.server";
 import { urlForImage } from "../../lib/sanity";
 import { projectQuery, getProjectSlugsQuery } from "../../lib/queries";
@@ -17,11 +19,47 @@ import formatPrice from "../../lib/formatPrice";
 import renderToString from "next-mdx-remote/render-to-string";
 import Navbar from "../../components/Navbar";
 import ProjectPhases from "../../components/ProjectPhases";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 function ProjectPage(props) {
   const {
-    projectData: { title, description, author, mainImage, phases, price },
+    projectData: {
+      _id,
+      title,
+      description,
+      author,
+      mainImage,
+      phases,
+      price,
+      slug,
+    },
   } = props;
+
+  const [session, loading] = useSession();
+
+  async function handleBuyNowClicked() {
+    const userSession = await getSession();
+    const stripe = await stripePromise;
+
+    const checkoutSession = await axios.post("/api/checkout-session", {
+      projectId: slug.current,
+      returnTo: window.location.href,
+    });
+
+    // When the customer clicks on the button, redirect them to Checkout.
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+    if (result.error) {
+      // If `redirectToCheckout` fails due to a browser or network
+      // error, display the localized error message to your customer
+      // using `result.error.message`.
+    }
+  }
 
   return (
     <>
@@ -75,7 +113,12 @@ function ProjectPage(props) {
                 Get professional code reviews and guidance for the entire
                 project!
               </Text>
-              <Button colorScheme="red" w="100%" py={6}>
+              <Button
+                colorScheme="red"
+                w="100%"
+                py={6}
+                onClick={handleBuyNowClicked}
+              >
                 Buy Now
               </Button>
             </Box>

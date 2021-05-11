@@ -1,5 +1,5 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import {
   Grid,
   GridItem,
@@ -10,18 +10,19 @@ import {
   ButtonGroup,
   Button,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
+import axios from "../../utils/axiosInstance";
 
-import Account from '../../components/settings/Account';
-import Security from '../../components/settings/Security';
-import Navbar from '../../components/Navbar';
+import Account from "../../components/settings/Account";
+import Security from "../../components/settings/Security";
+import Navbar from "../../components/Navbar";
 
 const LoadView = (menu) => {
   switch (menu) {
-    case 'account': {
+    case "account": {
       return <Account />;
     }
-    case 'security': {
+    case "security": {
       return <Security />;
     }
     default:
@@ -35,15 +36,15 @@ const ButtonLink = (props) => {
   return (
     <Link
       align="center"
-      bgGradient={'linear(to-r, primary.300, primary.500)'}
+      bgGradient={"linear(to-r, primary.300, primary.500)"}
       fontWeight="bold"
       borderRadius="md"
       p="2"
       minW="80%"
       color="white"
       _hover={{
-        color: 'white',
-        bgGradient: 'linear(to-r, primary.400, primary.600)',
+        color: "white",
+        bgGradient: "linear(to-r, primary.400, primary.600)",
       }}
       {...props}
     >
@@ -56,6 +57,12 @@ export default function Settings() {
   const router = useRouter();
   const { menu } = router.query;
 
+  useEffect(() => {
+    axios.get("/api/user/projects").then((response) => {
+      console.log(`response`, response);
+    });
+  }, []);
+
   return (
     <Flex direction="column" minH="100vh">
       <Navbar />
@@ -63,7 +70,7 @@ export default function Settings() {
         <Grid minW="100%" templateColumns="repeat(10, 1fr)">
           {/* Menu Sidebar*/}
           <GridItem
-            bgGradient={'linear(to-br, dark.600, dark.900)'}
+            bgGradient={"linear(to-br, dark.600, dark.900)"}
             colSpan={{ base: 10, md: 2 }}
           >
             <Stack align="center" py={8}>

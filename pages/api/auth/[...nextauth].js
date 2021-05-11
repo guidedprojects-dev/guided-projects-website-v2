@@ -1,14 +1,12 @@
-import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+import NextAuth from "next-auth";
+import Providers from "next-auth/providers";
 
 export default (req, res) =>
   NextAuth(req, res, {
     session: {
       jwt: true,
     },
-    jwt: {
-      secret: process.env.JWT_SECRET,
-    },
+    secret: process.env.JWT_SECRET,
     providers: [
       Providers.GitHub({
         clientId: process.env.GITHUB_ID,
@@ -17,14 +15,23 @@ export default (req, res) =>
     ],
     database: process.env.DATABASE_URL,
     pages: {
-      signIn: '/signin',
+      signIn: "/signin",
     },
     callbacks: {
-      session(session, user) {
+      async session(session, user) {
         if (user) {
-          session.user.id = user.id;
+          session.user.userId = user.userId;
           return session;
         }
+        return session;
+      },
+      async jwt(token, user, account, profile, isNewUser) {
+        // Place userid on the jwt for access in the session
+        if (user) {
+          token.userId = user.id;
+        }
+
+        return token;
       },
     },
   });
