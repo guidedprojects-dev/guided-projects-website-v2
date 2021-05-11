@@ -11,7 +11,6 @@ import {
   Container,
   Alert,
   AlertIcon,
-  AlertDescription,
 } from "@chakra-ui/react";
 import axios from "../../utils/axiosInstance";
 import renderToString from "next-mdx-remote/render-to-string";
@@ -21,7 +20,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { getClient } from "../../lib/sanity.server";
 import { urlForImage } from "../../lib/sanity";
 import { projectQuery, getProjectSlugsQuery } from "../../lib/queries";
-import { getDateStringFromTimestamp } from "../../lib/utils";
 import formatPrice from "../../lib/formatPrice";
 
 import Navbar from "../../components/Navbar";
@@ -47,9 +45,6 @@ function ProjectPage(props) {
 
   const [session, loading] = useSession();
   const [userProject, setUserProject] = useState({});
-
-  console.log(`loading`, loading);
-  console.log(`userProject`, userProject);
 
   useEffect(async () => {
     if (session && !loading) {
