@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "../../utils/axiosInstance";
 import renderToString from "next-mdx-remote/render-to-string";
+import BlockContent from "@sanity/block-content-to-react";
 import { useSession } from "next-auth/client";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -35,6 +36,7 @@ function ProjectPage(props) {
       _id,
       title,
       description,
+      tagLine,
       author,
       mainImage,
       phases,
@@ -45,6 +47,8 @@ function ProjectPage(props) {
 
   const [session, loading] = useSession();
   const [userProject, setUserProject] = useState({});
+
+  console.log(`description`, description);
 
   useEffect(async () => {
     if (session && !loading) {
@@ -94,7 +98,7 @@ function ProjectPage(props) {
               {title}
             </Heading>
             <Text color="white" fontSize="lg">
-              {description}
+              {tagLine}
             </Text>
           </Stack>
         </Flex>
@@ -165,8 +169,14 @@ function ProjectPage(props) {
           </Box>
         </Flex>
       </Stack>
-      <Container maxW={"container.xl"} py={8}>
-        <Heading as="h2" fontSize="2xl" mb={2}>
+      <Container maxW={"container.xl"} p={4}>
+        <Box mt={8} mb={20} p={8} backgroundColor="gray.50" rounded={"lg"}>
+          <Heading as="h2" fontSize="2xl" mb={4}>
+            Description
+          </Heading>
+          <BlockContent blocks={description} className="markdown-body" />
+        </Box>
+        <Heading as="h2" fontSize="2xl" mb={4}>
           Project Phases
         </Heading>
         <ProjectPhases phases={phases} />

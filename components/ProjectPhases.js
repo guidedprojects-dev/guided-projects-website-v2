@@ -1,17 +1,6 @@
 import React, { useState } from "react";
 import hydrate from "next-mdx-remote/hydrate";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  Box,
-  Button,
-  Header,
-  Heading,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import "github-markdown-css";
 
 function ProjectPhases(props) {
