@@ -1,5 +1,8 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
+import Adapters from "next-auth/adapters";
+
+import Models from "./models";
 
 export default (req, res) =>
   NextAuth(req, res, {
@@ -13,7 +16,14 @@ export default (req, res) =>
         clientSecret: process.env.GITHUB_SECRET,
       }),
     ],
-    database: process.env.DATABASE_URL,
+    adapter: Adapters.TypeORM.Adapter(
+      process.env.DATABASE_URL,
+      {
+        models: {
+          User: Models.User,
+        },
+      }
+    ),
     pages: {
       signIn: "/signin",
     },
