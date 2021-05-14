@@ -280,7 +280,7 @@ const NAV_ITEMS = [
   },
   {
     label: "Projects",
-    href: "projects",
+    href: "/projects",
     children: [
       {
         label: "Super Store",

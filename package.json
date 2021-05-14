@@ -16,7 +16,6 @@
     "@stripe/stripe-js": "^1.14.0",
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.0-beta3",
     "framer-motion": "^4",
     "github-markdown-css": "^4.0.0",
     "micro": "^9.3.4",
