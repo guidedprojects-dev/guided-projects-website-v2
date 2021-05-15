@@ -28,7 +28,7 @@ function ProjectList(props) {
             image={project.mainImage}
             author={project.author}
             title={project.title}
-            description={project.description}
+            tagLine={project.tagLine}
             price={project.price}
           />
         ))}

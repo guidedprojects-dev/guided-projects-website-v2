@@ -15,7 +15,7 @@ import DifficultyBadge from "./DifficultyBadge";
 import formatPrice from "../lib/formatPrice";
 
 function ProjectListItem(props) {
-  const { image, title, description, author, slug, price } = props;
+  const { image, title, tagLine, author, slug, price } = props;
 
   return (
     <Flex
@@ -41,7 +41,7 @@ function ProjectListItem(props) {
             <Link href={`/projects/${slug}`}>{title}</Link>
           </Text>
           <Text fontSize="md" mb={[8, 8, 4, 4]}>
-            {description}
+            {tagLine}
           </Text>
           <Box>
             <HStack>
