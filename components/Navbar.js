@@ -1,5 +1,5 @@
+import NextLink from "next/link";
 import { useSession } from "next-auth/client";
-// import Link from "next/link";
 import {
   Box,
   Flex,
@@ -29,7 +29,6 @@ import UserMenu from "../components/UserMenu";
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const [session, isLoading] = useSession();
-  console.log(`session in navbar`, session);
 
   /**
    * Helper function to render the signin and sign up buttons if there is no session,
@@ -48,15 +47,11 @@ export default function WithSubnavigation() {
           direction={"row"}
           spacing={6}
         >
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            href={"/signin"}
-          >
-            Sign In
-          </Button>
+          <NextLink href={"/signin"} passHref={true}>
+            <Button as={"a"} fontSize={"sm"} fontWeight={400} variant={"link"}>
+              Sign In
+            </Button>
+          </NextLink>
           <Button
             display={{ base: "none", md: "inline-flex" }}
             fontSize={"sm"}
@@ -131,10 +126,12 @@ const DesktopNav = () => {
         <Box key={navItem.label}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
+              {/* Using NextLink here causes some weird behaviour with the styles of the popover */}
+              {/* <NextLink href={navItem.href ?? "#"} passHref> */}
               <Link
                 p={2}
-                href={navItem.href ?? "#"}
                 fontSize={"sm"}
+                href={navItem.href ?? "#"}
                 fontWeight={500}
                 color={useColorModeValue("gray.600", "gray.200")}
                 _hover={{
@@ -144,6 +141,7 @@ const DesktopNav = () => {
               >
                 {navItem.label}
               </Link>
+              {/* </NextLink> */}
             </PopoverTrigger>
 
             {navItem.children && (
@@ -172,9 +170,9 @@ const DesktopNav = () => {
 const DesktopSubNav = ({ label, href, subLabel }) => {
   return (
     <Link
-      href={href}
       role={"group"}
       display={"block"}
+      href={href}
       p={2}
       rounded={"md"}
       _hover={{ bg: useColorModeValue("dark.50", "gray.900") }}
@@ -263,9 +261,11 @@ const MobileNavItem = ({ label, children, href }) => {
         >
           {children &&
             children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Link>
+              <NextLink href={child.href} passHref={true}>
+                <Link key={child.label} py={2}>
+                  {child.label}
+                </Link>
+              </NextLink>
             ))}
         </Stack>
       </Collapse>

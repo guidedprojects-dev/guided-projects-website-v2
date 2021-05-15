@@ -32,7 +32,6 @@ export default function SimpleCard() {
 
   return (
     <>
-      <Navbar />
       <Flex
         minH={"100vh"}
         align={"center"}

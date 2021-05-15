@@ -81,7 +81,6 @@ function ProjectPage(props) {
 
   return (
     <>
-      <Navbar />
       <Stack
         spacing={{ base: 8, md: 10 }}
         py={{ base: 10, md: 20 }}
