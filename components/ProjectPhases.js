@@ -19,7 +19,12 @@ function ProjectPhases(props) {
       borderColor="gray.100"
       borderRadius={4}
     >
-      <Box p={4} backgroundColor="gray.100" w="250px" overflow="auto">
+      <Box
+        p={4}
+        backgroundColor="gray.100"
+        w={{ base: "auto", md: "250px" }}
+        overflow="auto"
+      >
         {phaseTitles.map((title, index) => (
           <React.Fragment key={`phase-button-${title}`}>
             <Button

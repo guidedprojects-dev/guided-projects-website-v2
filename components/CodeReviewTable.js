@@ -17,24 +17,23 @@ function CodeReviewTable(props) {
       <Thead>
         <Tr>
           <Th>Phase</Th>
+          <Th>Date Submitted</Th>
           <Th>Status</Th>
-          <Th>View</Th>
         </Tr>
       </Thead>
       <Tbody>
         <Tr>
           <Td>Phase 1 - Setup</Td>
+          <Td>05/20/2021</Td>
           <Td>
             <Badge colorScheme="green">Done</Badge>
           </Td>
         </Tr>
         <Tr>
-          <Td>Phase 1 - Setup</Td>
+          <Td>Phase 2 - View Item</Td>
+          <Td>05/27/2021</Td>
           <Td>
             <Badge colorScheme="yellow">In Progress</Badge>
-          </Td>
-          <Td>
-            <Button>View</Button>
           </Td>
         </Tr>
       </Tbody>

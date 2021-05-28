@@ -6,7 +6,9 @@ import { connectToDB, getUserProjectByProjectSlug } from "../../../database";
 import renderToString from "next-mdx-remote/render-to-string";
 import {
   Box,
+  Button,
   Container,
+  Flex,
   Heading,
   Tabs,
   TabList,
@@ -25,7 +27,7 @@ function Learn(props) {
   return (
     <div>
       <Box color="white" bg="dark.700" p={4}>
-        <Heading as="h1" fontSize="xl" ml={20}>
+        <Heading as="h1" fontSize="xl" ml={{ base: 0, md: 20 }}>
           {title}
         </Heading>
       </Box>
@@ -34,6 +36,21 @@ function Learn(props) {
           Phases
         </Heading>
         <ProjectPhases phases={phases} maxH={"650px"} />
+
+        <Flex>
+          <Button
+            ml={{ base: 0, sm: "auto" }}
+            mt={8}
+            w={{ base: "100%", sm: "auto" }}
+            color="white"
+            bgColor={"gray.700"}
+            _hover={{
+              bg: "gray.800",
+            }}
+          >
+            Submit Review
+          </Button>
+        </Flex>
 
         <Tabs mt={8}>
           <TabList>
