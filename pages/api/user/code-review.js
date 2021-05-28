@@ -1,6 +1,10 @@
 import nc from "next-connect";
 import { getSession } from "next-auth/client";
-import { connectToDB, submitUserCodeReview } from "../../../database";
+import {
+  connectToDB,
+  queryUserCodeReviews,
+  submitUserCodeReview,
+} from "../../../database";
 import { send } from "micro";
 
 const handler = nc().post(async (req, res) => {
@@ -14,14 +18,32 @@ const handler = nc().post(async (req, res) => {
 
   if (userSession?.user?.userId) {
     try {
+      const currentCodeReviews = await queryUserCodeReviews({
+        db,
+        userId: userSession.user.userId,
+        projectSlug,
+        phase,
+        status: 0,
+      });
+
+      // if the user already has a code review in progress for this project and phase,
+      // don't allow them to submit another one.
+      if (currentCodeReviews.length > 0) {
+        return res
+          .status(409)
+          .send(`Code review for ${phase} already in progress.`);
+      }
+
       const result = await submitUserCodeReview({
         db,
         userId: userSession.user.userId,
-        data: { projectSlug, phase, pullRequestUrl },
+        // Status 0 means "in progress"
+        data: { projectSlug, phase, pullRequestUrl, status: 0 },
       });
 
-      res.status(200).send(result.ops[0]);
+      return res.status(200).send(result.ops[0]);
     } catch (error) {
+      console.log(`error`, error);
       res.status(500).send(error.message);
     }
   } else {

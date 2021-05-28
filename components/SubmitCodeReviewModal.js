@@ -14,6 +14,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "../utils/axiosInstance";
 
@@ -21,6 +22,7 @@ function SubmitCodeReviewModal(props) {
   const { isOpen, onClose, projectName, projectSlug, phaseTitles } = props;
   const [selectedPhase, setSelectedPhase] = useState("");
   const [pullRequestUrl, setPullRequestUrl] = useState("");
+  const toast = useToast();
 
   function submitCodeReview(e) {
     e.preventDefault();
@@ -30,8 +32,27 @@ function SubmitCodeReviewModal(props) {
         phase: selectedPhase,
         pullRequestUrl,
       })
+      .then(() => {
+        toast({
+          title: "Code Reveiw Submitted",
+          description: `Your code review for ${selectedPhase} has successfully been submitted!`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      })
       .catch((error) => {
-        console.log(`error`, error);
+        const errorMessage =
+          error?.response?.data ||
+          `Your code review for ${selectedPhase} has failed to be submitted. Please try again.`;
+
+        toast({
+          title: "Code Reveiw Submission Failed",
+          description: errorMessage,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   }
 
