@@ -15,17 +15,24 @@ import {
   ModalCloseButton,
   Stack,
 } from "@chakra-ui/react";
+import axios from "../utils/axiosInstance";
 
 function SubmitCodeReviewModal(props) {
   const { isOpen, onClose, projectName, projectSlug, phaseTitles } = props;
   const [selectedPhase, setSelectedPhase] = useState("");
-  const [prUrl, setPrUrl] = useState("");
+  const [pullRequestUrl, setPullRequestUrl] = useState("");
 
   function submitCodeReview(e) {
     e.preventDefault();
-    console.log("submitted");
-    console.log(`selectedPhase`, selectedPhase);
-    console.log(`prUrl`, prUrl);
+    axios
+      .post("/api/user/code-review", {
+        projectSlug,
+        phase: selectedPhase,
+        pullRequestUrl,
+      })
+      .catch((error) => {
+        console.log(`error`, error);
+      });
   }
 
   return (
@@ -53,8 +60,8 @@ function SubmitCodeReviewModal(props) {
                 <FormLabel>Pull Request URL</FormLabel>
                 <Input
                   type="url"
-                  onChange={(e) => setPrUrl(e.target.value)}
-                  value={prUrl}
+                  onChange={(e) => setPullRequestUrl(e.target.value)}
+                  value={pullRequestUrl}
                 ></Input>
               </FormControl>
             </Stack>
