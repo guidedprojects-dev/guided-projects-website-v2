@@ -20,10 +20,9 @@ import { loadStripe } from "@stripe/stripe-js";
 
 import { getClient } from "../../lib/sanity.server";
 import { urlForImage } from "../../lib/sanity";
-import { projectQuery, getProjectSlugsQuery } from "../../lib/queries";
+import { projectQuery, projectSlugsQuery } from "../../lib/queries";
 import formatPrice from "../../lib/formatPrice";
 
-import Navbar from "../../components/Navbar";
 import ProjectPhases from "../../components/ProjectPhases";
 
 const stripePromise = loadStripe(
@@ -47,8 +46,6 @@ function ProjectPage(props) {
 
   const [session, loading] = useSession();
   const [userProject, setUserProject] = useState({});
-
-  console.log(`description`, description);
 
   useEffect(async () => {
     if (session && !loading) {
@@ -186,7 +183,7 @@ function ProjectPage(props) {
 
 // Prerender all of the project pages, since there aren't many of them.
 export async function getStaticPaths() {
-  const projectSlugs = await getClient(false).fetch(getProjectSlugsQuery());
+  const projectSlugs = await getClient(false).fetch(projectSlugsQuery);
 
   return {
     paths: projectSlugs.map((s) => ({ params: { slug: s.slug.current } })),
