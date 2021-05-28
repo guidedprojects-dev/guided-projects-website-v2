@@ -15,17 +15,30 @@ import {
   Tab,
   TabPanels,
   TabPanel,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import ProjectPhases from "../../../components/ProjectPhases";
 import CodeReviewTable from "../../../components/CodeReviewTable";
+import SubmitCodeReviewModal from "../../../components/SubmitCodeReviewModal";
 
 function Learn(props) {
   const {
     projectData: { title, description, tagLine, phases },
+    slug,
   } = props;
+
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   return (
     <div>
+      <SubmitCodeReviewModal
+        isOpen={isOpen}
+        onClose={onClose}
+        projectName={title}
+        phaseTitles={phases.map((phase) => phase.title)}
+        projectSlug={slug}
+      />
       <Box color="white" bg="dark.700" p={4}>
         <Heading as="h1" fontSize="xl" ml={{ base: 0, md: 20 }}>
           {title}
@@ -47,6 +60,7 @@ function Learn(props) {
             _hover={{
               bg: "gray.800",
             }}
+            onClick={onOpen}
           >
             Submit Review
           </Button>
@@ -136,6 +150,7 @@ export async function getServerSideProps({
         ...projectData,
         phases: phaseList,
       },
+      slug: params.slug,
     },
   };
 }
