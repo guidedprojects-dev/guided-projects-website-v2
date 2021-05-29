@@ -27,15 +27,14 @@ function SubmitCodeReviewModal(props) {
   function submitCodeReview(e) {
     e.preventDefault();
     axios
-      .post("/api/user/code-review", {
-        projectSlug,
+      .post(`/api/user/code-review/${projectSlug}`, {
         phase: selectedPhase,
         pullRequestUrl,
       })
       .then(() => {
         toast({
           title: "Code Reveiw Submitted",
-          description: `Your code review for ${selectedPhase} has successfully been submitted!`,
+          description: `Your code review for "${selectedPhase}" has successfully been submitted!`,
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -44,7 +43,7 @@ function SubmitCodeReviewModal(props) {
       .catch((error) => {
         const errorMessage =
           error?.response?.data ||
-          `Your code review for ${selectedPhase} has failed to be submitted. Please try again.`;
+          `Your code review for "${selectedPhase}" has failed to be submitted. Please try again.`;
 
         toast({
           title: "Code Reveiw Submission Failed",

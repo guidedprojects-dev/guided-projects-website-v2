@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { projectQuery, projectSlugsQuery } from "../../../lib/queries";
 import { getClient } from "../../../lib/sanity.server";
 import { getSession } from "next-auth/client";
@@ -17,6 +17,7 @@ import {
   TabPanel,
   useDisclosure,
 } from "@chakra-ui/react";
+import axios from "../../../utils/axiosInstance";
 
 import ProjectPhases from "../../../components/ProjectPhases";
 import CodeReviewTable from "../../../components/CodeReviewTable";
@@ -27,8 +28,18 @@ function Learn(props) {
     projectData: { title, description, tagLine, phases },
     slug,
   } = props;
-
+  const [codeReviews, setCodeReviews] = useState([]);
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  // Load the user's code reviews for this project. Update any time the user
+  // closes the code review submission modal incase they submitted a new code review
+  useEffect(() => {
+    if (isOpen === false) {
+      axios.get(`/api/user/code-review/${slug}`).then((response) => {
+        setCodeReviews(response.data);
+      });
+    }
+  }, [isOpen]);
 
   return (
     <div>
@@ -73,7 +84,7 @@ function Learn(props) {
           </TabList>
           <TabPanels>
             <TabPanel p={4}>
-              <CodeReviewTable />
+              <CodeReviewTable codeReviews={codeReviews} />
             </TabPanel>
             <TabPanel>Comments</TabPanel>
           </TabPanels>
