@@ -39,20 +39,6 @@ function CodeReviewTable(props) {
               </Td>
             </Tr>
           ))}
-          {/* <Tr>
-            <Td>Phase 1 - Setup</Td>
-            <Td>05/20/2021</Td>
-            <Td>
-              <Badge colorScheme="green">Done</Badge>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td>Phase 2 - View Item</Td>
-            <Td>05/27/2021</Td>
-            <Td>
-              <Badge colorScheme="yellow">In Progress</Badge>
-            </Td>
-          </Tr> */}
         </Tbody>
       </Table>
     </Box>

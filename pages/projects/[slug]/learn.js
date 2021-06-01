@@ -7,6 +7,7 @@ import renderToString from "next-mdx-remote/render-to-string";
 import {
   Box,
   Button,
+  Center,
   Container,
   Flex,
   Heading,
@@ -29,6 +30,7 @@ function Learn(props) {
     slug,
   } = props;
   const [codeReviews, setCodeReviews] = useState([]);
+  const [isLoadingCodeReviews, setIsLoadingCodeReviews] = useState(true);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   // Load the user's code reviews for this project. Update any time the user
@@ -37,6 +39,7 @@ function Learn(props) {
     if (isOpen === false) {
       axios.get(`/api/user/code-review/${slug}`).then((response) => {
         setCodeReviews(response.data);
+        setIsLoadingCodeReviews(false);
       });
     }
   }, [isOpen]);
@@ -84,7 +87,12 @@ function Learn(props) {
           </TabList>
           <TabPanels>
             <TabPanel p={4}>
-              <CodeReviewTable codeReviews={codeReviews} />
+              {!isLoadingCodeReviews && codeReviews.length === 0 && (
+                <Center>No code reviews submitted for this project yet</Center>
+              )}
+              {!isLoadingCodeReviews && codeReviews.length > 0 && (
+                <CodeReviewTable codeReviews={codeReviews} />
+              )}
             </TabPanel>
             <TabPanel>Comments</TabPanel>
           </TabPanels>
