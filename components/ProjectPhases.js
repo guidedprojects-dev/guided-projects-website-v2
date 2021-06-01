@@ -4,23 +4,27 @@ import { Box, Button, Flex } from "@chakra-ui/react";
 import "github-markdown-css";
 
 function ProjectPhases(props) {
-  const { phases = [] } = props;
+  const { phases = [], maxH } = props;
   const [selectedPhaseIndex, setSelectedPhaseIndex] = useState(0);
 
   const phaseTitles = phases.map((phase) => phase.title);
 
   return (
     <Flex
-      flex={1}
       align={"top"}
       justify={"top"}
       w="100%"
+      h={maxH}
       border={"1px"}
       borderColor="gray.100"
       borderRadius={4}
-      overflow="hidden"
     >
-      <Box p={4} backgroundColor="gray.100" maxW="250px">
+      <Box
+        p={4}
+        backgroundColor="gray.100"
+        w={{ base: "auto", md: "250px" }}
+        overflow="auto"
+      >
         {phaseTitles.map((title, index) => (
           <React.Fragment key={`phase-button-${title}`}>
             <Button
@@ -44,7 +48,7 @@ function ProjectPhases(props) {
           </React.Fragment>
         ))}
       </Box>
-      <Box p={4} className="markdown-body">
+      <Box flex={1} p={4} className="markdown-body" overflow="scroll">
         {hydrate(phases[selectedPhaseIndex].content)}
       </Box>
     </Flex>

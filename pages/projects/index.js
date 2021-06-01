@@ -12,7 +12,6 @@ function ProjectList(props) {
 
   return (
     <>
-      <Navbar />
       <Container maxW="container.xl" p={8}>
         <Heading as="h1" size="lg" mb={8}>
           Projects

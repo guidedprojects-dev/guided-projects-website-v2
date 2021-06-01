@@ -65,7 +65,6 @@ export default function Settings() {
 
   return (
     <Flex direction="column" minH="100vh">
-      <Navbar />
       <Flex flex="1">
         <Grid minW="100%" templateColumns="repeat(10, 1fr)">
           {/* Menu Sidebar*/}
