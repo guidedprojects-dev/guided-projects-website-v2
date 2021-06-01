@@ -3,6 +3,7 @@ import { projectQuery, projectSlugsQuery } from "../../../lib/queries";
 import { getClient } from "../../../lib/sanity.server";
 import { getSession } from "next-auth/client";
 import { connectToDB, getUserProjectByProjectSlug } from "../../../database";
+import BlockContent from "@sanity/block-content-to-react";
 import renderToString from "next-mdx-remote/render-to-string";
 import {
   Box,
@@ -83,7 +84,7 @@ function Learn(props) {
         <Tabs mt={8}>
           <TabList>
             <Tab>Code Reviews</Tab>
-            <Tab>Comments</Tab>
+            <Tab>Project Description</Tab>
           </TabList>
           <TabPanels>
             <TabPanel p={4}>
@@ -94,7 +95,11 @@ function Learn(props) {
                 <CodeReviewTable codeReviews={codeReviews} />
               )}
             </TabPanel>
-            <TabPanel>Comments</TabPanel>
+            <TabPanel>
+              <div className="markdown-body">
+                <BlockContent blocks={description} className="markdown-body" />
+              </div>
+            </TabPanel>
           </TabPanels>
         </Tabs>
       </Container>
