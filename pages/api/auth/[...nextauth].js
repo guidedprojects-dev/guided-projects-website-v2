@@ -16,14 +16,11 @@ export default (req, res) =>
         clientSecret: process.env.GITHUB_SECRET,
       }),
     ],
-    adapter: Adapters.TypeORM.Adapter(
-      process.env.DATABASE_URL,
-      {
-        models: {
-          User: Models.User,
-        },
-      }
-    ),
+    adapter: Adapters.TypeORM.Adapter(process.env.DATABASE_URL, {
+      models: {
+        User: Models.User,
+      },
+    }),
     pages: {
       signIn: "/signin",
     },
@@ -39,6 +36,7 @@ export default (req, res) =>
         // Place userid on the jwt for access in the session
         if (user) {
           token.userId = user.id;
+          token.role = user.role;
         }
 
         return token;

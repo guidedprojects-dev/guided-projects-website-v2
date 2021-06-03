@@ -16,7 +16,7 @@ function FeatureSection() {
           <Center>
             <Image src="web-development.svg" h={205} />
           </Center>
-          <Box p={4} centerContent>
+          <Box p={4} centerContent={true}>
             <Heading as="h2" size="md" mb={4} align="center">
               Create Projects from Scratch
             </Heading>
@@ -27,11 +27,11 @@ function FeatureSection() {
             </Text>
           </Box>
         </Box>
-        <Box w="100%" centerContent p={4}>
+        <Box w="100%" centerContent={true} p={4}>
           <Center>
             <Image src="pair-program.svg" h={205} />
           </Center>
-          <Box p={4} centerContent>
+          <Box p={4} centerContent={true}>
             <Heading as="h2" size="md" mb={4} align="center">
               Receive Professional Code Reviews
             </Heading>
@@ -46,7 +46,7 @@ function FeatureSection() {
           <Center>
             <Image src="portfolio.svg" h={205} />
           </Center>
-          <Box p={4} centerContent>
+          <Box p={4} centerContent={true}>
             <Heading as="h2" size="md" mb={4} align="center">
               Add Projects to Your Portfolio
             </Heading>

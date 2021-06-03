@@ -39,4 +39,33 @@ export async function queryUserProjectCodeReviews({
   return codeReviews;
 }
 
-export function getUserCodeReviewList({ db, userId, projectSlug }) {}
+export function getUserCodeReviewList({ db, query, options }) {}
+
+export async function queryCodeReviews({
+  db,
+  query,
+  options,
+  from = 0,
+  size = 20,
+}) {
+  let codeReviews = [];
+
+  const cursor = await db
+    .collection("code-reviews")
+    .find(query, options)
+    .skip(from)
+    .limit(size);
+  const total = await cursor.count();
+  await cursor.forEach((item) => {
+    codeReviews.push(item);
+  });
+  await cursor.close();
+
+  const next = from + size >= total ? null : from + size;
+
+  return {
+    codeReviews,
+    next,
+    total,
+  };
+}

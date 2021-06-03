@@ -71,7 +71,6 @@ const handler = nc()
         userId: userSession.user.userId,
         projectSlug,
       });
-      console.log(`codeReviews`, codeReviews);
       res.status(200).send(codeReviews);
     } catch (error) {
       console.log(`error`, error);
