@@ -1,8 +1,13 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import Adapters from "next-auth/adapters";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
 
 import Models from "./models";
+
+console.log(`Adapters`, Adapters.prisma);
+const prisma = new PrismaClient();
 
 export default (req, res) =>
   NextAuth(req, res, {
@@ -16,16 +21,13 @@ export default (req, res) =>
         clientSecret: process.env.GITHUB_SECRET,
       }),
     ],
-    adapter: Adapters.TypeORM.Adapter(process.env.DATABASE_URL, {
-      models: {
-        User: Models.User,
-      },
-    }),
+    adapter: Adapters.Prisma.Adapter({ prisma }),
     pages: {
       signIn: "/signin",
     },
     callbacks: {
       async session(session, user) {
+        console.log(`session`, session);
         if (user) {
           session.user.userId = user.userId;
           return session;
@@ -33,6 +35,11 @@ export default (req, res) =>
         return session;
       },
       async jwt(token, user, account, profile, isNewUser) {
+        console.log(`token`, token);
+        console.log(`user`, user);
+        console.log(`account`, account);
+        console.log(`profile`, profile);
+        console.log(`isNewUser`, isNewUser);
         // Place userid on the jwt for access in the session
         if (user) {
           token.userId = user.id;

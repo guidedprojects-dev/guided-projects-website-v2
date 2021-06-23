@@ -20,7 +20,14 @@ const handler = nc().get(async (req, res) => {
   if (req.query.from !== undefined) from = parseInt(req.query.from, 10);
   if (req.query.size !== undefined) size = parseInt(req.query.size, 10);
 
-  const query = {};
+  const query = {
+    // $lookup: {
+    //   from: "users",
+    //   localField: "userId",
+    //   foreignField: "_id",
+    //   as: "user",
+    // },
+  };
   const options = {
     sort: {
       [sortField]: sortDir,

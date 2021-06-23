@@ -1,6 +1,16 @@
 import { extendTheme } from "@chakra-ui/react";
+import { mode } from "@chakra-ui/theme-tools";
 
 const customTheme = extendTheme({
+  styles: {
+    global: (props) => ({
+      body: {
+        bg: mode("gray.100", "gray.700")(props),
+      },
+    }),
+  },
+  initialColorMode: "light",
+  background: "red.500",
   colors: {
     primary: {
       50: "#e7f9e9",

@@ -1,29 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Badge,
-  Box,
-  Button,
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  Container,
-} from "@chakra-ui/react";
-
+import { Box, Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import ReviewStatusBadge from "./ReviewStatusBadge";
 
 function CodeReviewTable(props) {
-  const { codeReviews = [] } = props;
+  const { codeReviews, showProject, emptyMessage = "No Reviews" } = props;
 
   return (
     <Box maxW="100%" overflow="scroll">
       <Table>
         <Thead>
           <Tr>
+            {showProject && <Th>Project</Th>}
             <Th>Phase</Th>
             <Th>Date Submitted</Th>
             <Th>Status</Th>
@@ -31,7 +19,8 @@ function CodeReviewTable(props) {
         </Thead>
         <Tbody>
           {codeReviews.map((review) => (
-            <Tr>
+            <Tr key={review._id}>
+              {showProject && <Td>{review.projectSlug}</Td>}
               <Td>{review.phase}</Td>
               <Td>{review.submittedAt}</Td>
               <Td>
@@ -39,11 +28,23 @@ function CodeReviewTable(props) {
               </Td>
             </Tr>
           ))}
+          {codeReviews.length === 0 && (
+            <Tr>
+              {/* Use a large number for the colspan since columns can be dynamic based on the table configuration */}
+              <Td colSpan={100}>
+                <Box p={4} textAlign="center">
+                  {emptyMessage}
+                </Box>
+              </Td>
+            </Tr>
+          )}
         </Tbody>
       </Table>
     </Box>
   );
 }
+
+CodeReviewTable.propTypes = {};
 
 CodeReviewTable.propTypes = {
   codeReviews: PropTypes.arrayOf(
@@ -53,6 +54,7 @@ CodeReviewTable.propTypes = {
       status: PropTypes.number,
     })
   ),
+  emptyMessage: PropTypes.string,
 };
 
 export default CodeReviewTable;
