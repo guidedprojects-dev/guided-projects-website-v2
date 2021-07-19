@@ -6,7 +6,6 @@ import { PrismaClient } from "@prisma/client";
 
 import Models from "./models";
 
-console.log(`Adapters`, Adapters.prisma);
 const prisma = new PrismaClient();
 
 export default (req, res) =>
@@ -27,7 +26,7 @@ export default (req, res) =>
     },
     callbacks: {
       async session(session, user) {
-        console.log(`session`, session);
+        // console.log(`user in callback`, user);
         if (user) {
           session.user.userId = user.userId;
           return session;
@@ -35,11 +34,11 @@ export default (req, res) =>
         return session;
       },
       async jwt(token, user, account, profile, isNewUser) {
-        console.log(`token`, token);
-        console.log(`user`, user);
-        console.log(`account`, account);
-        console.log(`profile`, profile);
-        console.log(`isNewUser`, isNewUser);
+        // console.log(`token`, token);
+        // console.log(`user`, user);
+        // console.log(`account`, account);
+        // console.log(`profile`, profile);
+        // console.log(`isNewUser`, isNewUser);
         // Place userid on the jwt for access in the session
         if (user) {
           token.userId = user.id;

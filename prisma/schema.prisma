@@ -44,6 +44,7 @@ model User {
   email                 String?       @unique
   emailVerified         DateTime?     @map("email_verified")
   image                 String?
+  role                  String        @default("user")
   createdAt             DateTime      @default(now()) @map("created_at")
   updatedAt             DateTime      @default(now()) @map("updated_at")
   codeReviewReviews     CodeReview[]  @relation("code_reviews_reviewer_idTousers")
@@ -69,9 +70,9 @@ model UserProject {
   user_id      Int
   projectSlug  String    @map("project_slug") @db.VarChar(50)
   isPurchases  Boolean?  @map("is_purchased")
-  isFollowing  Boolean?  @map("isFollowing")
-  purchaseDate DateTime? @map("purchase_date") @db.DateTime(0)
-  followDate   DateTime? @map("follow_date") @db.DateTime(0)
+  isFollowing  Boolean?  @map("is_following")
+  purchaseDate DateTime? @default(now()) @map("purchase_date") @db.DateTime(0)
+  followDate   DateTime? @default(now()) @map("follow_date") @db.DateTime(0)
   user         User      @relation("user_projectsTousers", fields: [user_id], references: [id])
 
   @@index([user_id], name: "user")
@@ -82,7 +83,7 @@ model CodeReview {
   id             Int      @id @default(autoincrement())
   userId         Int      @map("user_id")
   reviewerId     Int?     @map("reviewer_id")
-  submittedAt    DateTime @map("submitted_at") @db.DateTime(0)
+  submittedAt    DateTime @default(now()) @map("submitted_at") @db.DateTime(0)
   projectSlug    String   @map("project_slug") @db.VarChar(50)
   phase          String   @db.VarChar(255)
   pullRequestUrl String   @map("pull_request_url") @db.VarChar(255)
